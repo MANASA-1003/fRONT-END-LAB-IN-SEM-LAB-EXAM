@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Student Signup</title>
+
+```
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #e6f2ff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        background: white;
+        padding: 30px;
+        width: 320px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px gray;
+    }
+
+    h2 {
+        text-align: center;
+        color: #007bff;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    #message {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    p {
+        text-align: center;
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Student Signup</h2>
+
+```
+<form id="signupForm">
+    <input type="text" id="name" placeholder="Enter Name" required>
+
+    <input type="email" id="email" placeholder="Enter Email" required>
+
+    <input type="password" id="password" placeholder="Enter Password" required>
+
+    <input type="password" id="confirmPassword"
+           placeholder="Confirm Password" required>
+
+    <button type="submit">Sign Up</button>
+</form>
+
+<p id="message"></p>
+
+<p>Already registered? <a href="login.html">Login Here</a></p>
+```
+
+</div>
+
+<script>
+    document.getElementById("signupForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        let name = document.getElementById("name").value.trim();
+        let email = document.getElementById("email").value.trim().toLowerCase();
+        let password = document.getElementById("password").value;
+        let confirmPassword = document.getElementById("confirmPassword").value;
+        let message = document.getElementById("message");
+
+        if (password !== confirmPassword) {
+            message.style.color = "red";
+            message.textContent = "Passwords do not match!";
+            return;
+        }
+
+        let users = JSON.parse(localStorage.getItem("students")) || [];
+
+        let existingUser = users.find(user => user.email === email);
+
+        if (existingUser) {
+            message.style.color = "red";
+            message.textContent = "Email is already registered!";
+            return;
+        }
+
+        let newUser = {
+            name: name,
+            email: email,
+            password: password
+        };
+
+        users.push(newUser);
+
+        localStorage.setItem("students", JSON.stringify(users));
+
+        message.style.color = "green";
+        message.textContent = "Signup successful! Redirecting to login...";
+
+        document.getElementById("signupForm").reset();
+
+        setTimeout(function() {
+            window.location.href = "login.html";
+        }, 1500);
+    });
+</script>
+
+</body>
+</html>

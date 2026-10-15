@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Student Login</title>
+
+```
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #e6f2ff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        background: white;
+        padding: 30px;
+        width: 320px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px gray;
+    }
+
+    h2 {
+        text-align: center;
+        color: #007bff;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    #message {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    p {
+        text-align: center;
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Student Login</h2>
+
+```
+<form id="loginForm">
+    <input type="email" id="email" placeholder="Enter Email" required>
+
+    <input type="password" id="password" placeholder="Enter Password" required>
+
+    <button type="submit">Login</button>
+</form>
+
+<p id="message"></p>
+
+<p>New student? <a href="signup.html">Sign Up Here</a></p>
+```
+
+</div>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        let email = document.getElementById("email").value.trim().toLowerCase();
+        let password = document.getElementById("password").value;
+        let message = document.getElementById("message");
+
+        let users = JSON.parse(localStorage.getItem("students")) || [];
+
+        let validUser = users.find(function(user) {
+            return user.email === email && user.password === password;
+        });
+
+        if (validUser) {
+            message.style.color = "green";
+            message.textContent = "Login successful! Welcome, " + validUser.name + "!";
+
+            document.getElementById("loginForm").reset();
+        } else {
+            message.style.color = "red";
+            message.textContent = "Invalid email or password!";
+        }
+    });
+</script>
+
+</body>
+</html>
